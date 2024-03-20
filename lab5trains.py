@@ -10,6 +10,8 @@ If it is smaller than the current distance of Node, set it as the new current di
 
 """
 
+# testtesttest
+
 def dijkstra_algorithm_implementation():
     # Step 1:
     non_visited_nodes = [0, 1, 2, 3]

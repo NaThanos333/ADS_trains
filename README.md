@@ -7,6 +7,7 @@
  In addition to the above, you can get information about additional disruptions, as shown at
  https://www.ns.nl/en/travel-information/current-situation-on-the-tracks.
  This information is included at the beginning of each test case as shown below.
+
  We make some simplifying assumptions:
  • Weonly care about the duration, not the time of the day.
  • Changing trains never takes any time, all connections are instant.
@@ -17,6 +18,7 @@
  which describe a direct connection that is no longer available.
  • All remaining lines are queries. Each query consists of two lines: the start and the goal.
  • The input ends with an exclamation mark.
+
  Output
  For each query your program should use Dijkstra’s Algorithm to find the fastest connection
  and then output the list of all stations along that route, including the starting and ending
@@ -34,16 +36,20 @@
  yourself.
  • For the main part of this assignment you can earn up to 3 points by passing the Themis
  tests and up to 2 points for simplicity, efficiency and clarity.
+ 
  Report (5 points)
  For this assignment you should also write a programming report. You can find a template
  for this on Brightspace. Please follow all guidelines from Appendix E of the lecture notes
  and submit your report as a single PDF file on Themis.
-3
+
+
  Extra 1: Optimization with A* (up to 1 bonus point)
  The NS appreciates your program, but it is not efficient enough. Can you optimize it further
  by using the A* algorithm instead of Dijkstra’s Algorithm? For the heuristic you will need
  geo-coordinates of each station. See for example https://osm.org/node/1112410297.
  The input/output format for this part is the same as for the main part of the assignment.
+
+
  Extra 2: Going International (up to 1 bonus point)
  Adapt your program to read in an arbitrary train network. The first line of the input is the
  number of different train networks. For each train network, the input then consists of:

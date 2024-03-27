@@ -1,6 +1,15 @@
+class PriorityElement:
+    def __init__(self, node, priority):
+        self.node = node
+        self.priority = priority
+
+    def __lt__(self, other):
+        return self.priority < other.priority
+
 class Heap:
     def __init__(self):
-        self._heap = [0]
+        self._reverse_lookup = {}
+        self._heap = [None]
 
     def size(self) -> int:
         return len(self._heap) - 1
@@ -8,31 +17,30 @@ class Heap:
     def _heap_empty_error(self) -> None:
         print("Heap empty")
 
-    def _upheap(self, index: int) -> None:
-        if index > 1:
-            parent_index = index // 2
-            if self._heap[parent_index] < self._heap[index]:
-                self._heap[parent_index], self._heap[index] = self._heap[index], self._heap[parent_index]
-                self._upheap(parent_index)
+    def _upheap(self, index) -> None:
+        parent_idx = len(self.heap) // 2
+        if index > 1 and self.heap[index] > self.heap[parent_idx]:
+            self.heap[index], self.heap[parent_idx] = self.heap[parent_idx], self.heap[index]
+            self._reverse_lookup[self.heap[index].node], self._reverse_lookup[self.heap[parent_idx].node] = self._reverse_lookup[self.heap[parent_idx].node], self._reverse_lookup[self.heap[index].node]
+            self._upheap(parent_idx)
 
-    def enqueue(self, value) -> None:
-        self._heap.append(value)
-        self._upheap(len(self._heap) - 1)
+    def enqueue(self, value, priority) -> None:
+        self.heap.append(PriorityElement(value, priority))
+        self._reverse_lookup[value] = len(self.heap) - 1
+        self._upheap(len(self.heap) - 1)
 
     def _downheap(self, index: int) -> None:
-        left_child_index = 2 * index
-        right_child_index = 2 * index + 1
-        largest_index = index
+        index_max = index
 
-        if left_child_index <= self.size() and self._heap[left_child_index] > self._heap[largest_index]:
-            largest_index = left_child_index
-
-        if right_child_index <= self.size() and self._heap[right_child_index] > self._heap[largest_index]:
-            largest_index = right_child_index
-
-        if largest_index != index:
-            self._heap[index], self._heap[largest_index] = self._heap[largest_index], self._heap[index]
-            self._downheap(largest_index)
+        if index*2 <= self.size() and self._heap[index_max] < self._heap[index*2]:
+            index_max = index*2
+        if index*2+1 <= self.size() and self._heap[index_max] < self._heap[index*2+1]:
+            index_max = index*2+1
+        if index_max != index:
+            self._heap[index], self._heap[index_max] = self._heap[index_max], self._heap[index]
+            self._reverse_lookup[self._heap[index_max].node], self._reverse_lookup[self._heap[index].node] = self._reverse_lookup[self._heap[index].node], self._reverse_lookup[self._heap[index_max].node]
+            self._downheap(index_max)
+        
 
     def remove_max(self):
         if self.size() > 0:
@@ -42,6 +50,6 @@ class Heap:
                 self._downheap(1)
             else:
                 self._heap.pop()
-            return return_value
+            return return_value.node
         else:
             self._heap_empty_error()

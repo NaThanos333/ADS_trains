@@ -10,24 +10,17 @@ If it is smaller than the current distance of Node, set it as the new current di
 
 """
 
-def dijkstra_algorithm_implementation():
-    # Step 1:
-    non_visited_nodes = [0, 1, 2, 3]
-    node_distances = [0] + [float('inf')] * (len(non_visited_nodes) - 1)
-
-    while True:
-        # Step 2:
-        current_node = node_distances.index(min(node_distances))
-
-        # Step 3:
-        
-
-
-        if len(non_visited_nodes) == 0:
-            break
-
+def dijkstra_algorithm_implementation(graph, start_node):
+    todo_list = set(graph.keys())
+    distances = [0] + [float('inf')] * (len(todo_list) - 1)	
    
-    print(node_distances)
+    while todo_list:
+        current_node = min(todo_list, key=lambda node: distances[node])
+        todo_list.remove(current_node)
+        for neighbor, weight in graph[current_node].items():
+            if distances[neighbor] > distances[current_node] + weight:
+                distances[neighbor] = distances[current_node] + weight
 
+    return distances
 
 dijkstra_algorithm_implementation()

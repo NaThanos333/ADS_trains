@@ -41,7 +41,11 @@ edges = {
     "Eindhoven": {"Den Haag": 89, "Utrecht": 47, "Maastricht": 63, "Nijmegen": 55},
     "Maastricht": {"Eindhoven": 63, "Nijmegen": 111},
     "Nijmegen": {"Eindhoven": 55, "Maastricht": 111, "Zwolle": 77},
-    "Zwolle": {"Utrecht": 51, "Nijmegen": 77}
+    "Zwolle": {"Utrecht": 51, "Nijmegen": 77},
+    "Enschede": {"Zwolle": 50},
+    "Groningen": {"Leeuwarden": 34, "Meppel": 49},
+    "Leeuwarden": {"Groningen": 34, "Meppel": 40},
+    "Meppel": {"Groningen": 49, "Leeuwarden": 40, "Zwolle": 15}
 }
 
 for origin, destinations in edges.items():

@@ -10,13 +10,14 @@ If it is smaller than the current distance of Node, set it as the new current di
 
 """
 from heap import Heap
+from heap import Heap
 
 def dijkstra_algorithm_implementation(graph, start_node):
     todo_list = set(graph.keys())
     distances = [0] + [float('inf')] * (len(todo_list) - 1)	
    
     while todo_list:
-        current_node = min(todo_list, key=lambda node: distances[node])
+        current_node = (distances, todo_list)
         todo_list.remove(current_node)
         for neighbor, weight in graph[current_node].items():
             if distances[neighbor] > distances[current_node] + weight:

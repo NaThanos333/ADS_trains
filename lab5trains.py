@@ -9,66 +9,6 @@ If it is smaller than the current distance of Node, set it as the new current di
 5. Go to step 2 if there are any nodes are unvisited.
 
 """
-class PriorityElement:
-    def __init__(self, node, priority):
-        self.node = node
-        self.priority = priority
-
-    def __lt__(self, other):
-        return self.priority < other.priority
-
-class Heap:
-    def __init__(self):
-        self._reverse_lookup = {}
-        self._heap = [None]
-
-    def size(self) -> int:
-        return len(self._heap) - 1
-
-    def _heap_empty_error(self) -> None:
-        print("Heap empty")
-
-    def _upheap(self, index) -> None:
-        parent_idx = len(self._heap) // 2
-        if index > 1 and self._heap[index] > self._heap[parent_idx]:
-            self._heap[index], self._heap[parent_idx] = self._heap[parent_idx], self._heap[index]
-            self._reverse_lookup[self._heap[index].node], self._reverse_lookup[self._heap[parent_idx].node] = self._reverse_lookup[self._heap[parent_idx].node], self._reverse_lookup[self._heap[index].node]
-            self._upheap(parent_idx)
-
-    def enqueue(self, value, priority) -> None:
-        self._heap.append(PriorityElement(value, priority))
-        self._reverse_lookup[value] = len(self._heap) - 1
-        self._upheap(len(self._heap) - 1)
-
-    def _downheap(self, index: int) -> None:
-        index_max = index
-
-        if index*2 <= self.size() and self._heap[index_max] < self._heap[index*2]:
-            index_max = index*2
-        if index*2+1 <= self.size() and self._heap[index_max] < self._heap[index*2+1]:
-            index_max = index*2+1
-        if index_max != index:
-            self._heap[index], self._heap[index_max] = self._heap[index_max], self._heap[index]
-            self._reverse_lookup[self._heap[index_max].node], self._reverse_lookup[self._heap[index].node] = self._reverse_lookup[self._heap[index].node], self._reverse_lookup[self._heap[index_max].node]
-            self._downheap(index_max)
-        
-
-    def remove_max(self):
-        return_value = self._heap[1]
-        del self._reverse_lookup[return_value.node]
-        if self.size() > 1:
-            self._heap[1] = self._heap.pop()
-            self._downheap(1)
-        else:
-            self._heap.pop()
-        return return_value.node
-
-
-    def update_priority(self, value, priority):
-        self._heap[self._reverse_lookup[value]].priority = priority
-        self._upheap(self._reverse_lookup[value])
-        self._downheap(self._reverse_lookup[value])
-
 class GraphEdge:
     def __init__(self, origin, destination, weight):
         self._incident_nodes = (origin, destination)

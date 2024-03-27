@@ -9,7 +9,7 @@ If it is smaller than the current distance of Node, set it as the new current di
 5. Go to step 2 if there are any nodes are unvisited.
 
 """
-
+from heap import Heap
 
 class GraphEdge:
     def __init__(self, origin, destination, weight):
@@ -65,4 +65,4 @@ def dijkstra_algorithm_implementation(graph, start_node):
 
 
 
-test_dijkstra_algorithm_implementation()
+dijkstra_algorithm_implementation()

@@ -43,13 +43,17 @@ class Heap:
         
 
     def remove_max(self):
-        if self.size() > 0:
-            return_value = self._heap[1]
-            if self.size() > 1:
-                self._heap[1] = self._heap.pop()
-                self._downheap(1)
-            else:
-                self._heap.pop()
-            return return_value.node
+        return_value = self._heap[1].nodes
+        del self._reverse_lookup[return_value]
+        if self.size() > 1:
+            self._heap[1] = self._heap.pop()
+            self._downheap(1)
         else:
-            self._heap_empty_error()
+            self._heap.pop()
+        return return_value.node
+
+
+    def update_priority(self, value, priority):
+        self.heap[self._reverse_lookup[value]].priority = priority
+        self._upheap(self._reverse_lookup[value])
+        self._downheap(self._reverse_lookup[value])

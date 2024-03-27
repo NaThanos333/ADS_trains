@@ -29,14 +29,6 @@ class GraphEdge:
     
     def get_weight(self):
         return self._weight
-    
-class WeightedNode:
-    def __init__(self, node, weight):
-        self._node = node
-        self._weight = weight
-
-    def __lt__(self, other):
-        return self._weight > other._weight
         
 
 class UndirectedGraph:

@@ -1,3 +1,4 @@
+import heapq
 """
 Dijkstra algorithm implementation:
 
@@ -9,6 +10,7 @@ If it is smaller than the current distance of Node, set it as the new current di
 5. Go to step 2 if there are any nodes are unvisited.
 
 """
+
 class GraphEdge:
     def __init__(self, origin, destination, weight):
         self._incident_nodes = (origin, destination)
@@ -48,16 +50,20 @@ class UndirectedGraph:
 
 
 def dijkstra_algorithm_implementation(graph, start_node):
-    todo_list = Heap()
-    todo_list.enqueue(start_node, 0)
+    todo_list = []
+    heapq.heappush(todo_list, (0, start_node))
     distances = [0] + [float('inf')] * (len(graph._neighbours) - 1)
    
-    while todo_list.size() > 0:
-        current_node = todo_list.remove_max()
-        for neighbor, weight in [(edge.other_node(current_node), edge.get_weight()) for edge in graph._neighbours[current_node]]:
+    while todo_list:
+        current_distance, current_node = heapq.heappop(todo_list)
+        if current_distance > distances[current_node]:
+            continue
+        for edge in graph._neighbours[current_node]:
+            neighbor = edge.other_node(current_node)
+            weight = edge.get_weight()
             if distances[neighbor] > distances[current_node] + weight:
                 distances[neighbor] = distances[current_node] + weight
-                todo_list.enqueue(neighbor, distances[neighbor])
+                heapq.heappush(todo_list, (distances[neighbor], neighbor))
 
     return distances
 

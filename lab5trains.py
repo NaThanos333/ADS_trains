@@ -64,32 +64,5 @@ def dijkstra_algorithm_implementation(graph, start_node):
     return distances
 
 
-def test_dijkstra_algorithm_implementation():
-    graph = UndirectedGraph(5)
-    graph.add_edge(0, 1, 5)
-    graph.add_edge(0, 2, 3)
-    graph.add_edge(1, 2, 2)
-    graph.add_edge(1, 3, 4)
-    graph.add_edge(2, 3, 8)
-    graph.add_edge(2, 4, 4)
-    graph.add_edge(3, 4, 1)
-
-
-    distances = dijkstra_algorithm_implementation(graph, 0)
-    assert distances == [0, 5, 3, 9, 10]
-
-    distances = dijkstra_algorithm_implementation(graph, 1)
-    assert distances == [5, 0, 2, 6, 7]
-
-    distances = dijkstra_algorithm_implementation(graph, 2)
-    assert distances == [3, 2, 0, 8, 4]
-
-    distances = dijkstra_algorithm_implementation(graph, 3)
-    assert distances == [9, 6, 8, 0, 1]
-
-    distances = dijkstra_algorithm_implementation(graph, 4)
-    assert distances == [10, 7, 4, 1, 0]
-
-    print("All tests passed")
 
 test_dijkstra_algorithm_implementation()

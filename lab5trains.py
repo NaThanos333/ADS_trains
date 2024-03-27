@@ -50,7 +50,7 @@ class UndirectedGraph:
 
 
 def dijkstra_algorithm_implementation(graph, start_node):
-    todo_list = _heap()
+    todo_list = Heap()
     todo_list.enqueue(start_node, 0)
     distances = [0] + [float('inf')] * (len(graph._neighbours) - 1)
    

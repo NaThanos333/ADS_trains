@@ -9,7 +9,65 @@ If it is smaller than the current distance of Node, set it as the new current di
 5. Go to step 2 if there are any nodes are unvisited.
 
 """
-from heap import Heap
+class PriorityElement:
+    def __init__(self, node, priority):
+        self.node = node
+        self.priority = priority
+
+    def __lt__(self, other):
+        return self.priority < other.priority
+
+class Heap:
+    def __init__(self):
+        self._reverse_lookup = {}
+        self._heap = [None]
+
+    def size(self) -> int:
+        return len(self._heap) - 1
+
+    def _heap_empty_error(self) -> None:
+        print("Heap empty")
+
+    def _upheap(self, index) -> None:
+        parent_idx = len(self._heap) // 2
+        if index > 1 and self._heap[index] > self._heap[parent_idx]:
+            self._heap[index], self._heap[parent_idx] = self._heap[parent_idx], self._heap[index]
+            self._reverse_lookup[self._heap[index].node], self._reverse_lookup[self._heap[parent_idx].node] = self._reverse_lookup[self._heap[parent_idx].node], self._reverse_lookup[self._heap[index].node]
+            self._upheap(parent_idx)
+
+    def enqueue(self, value, priority) -> None:
+        self._heap.append(PriorityElement(value, priority))
+        self._reverse_lookup[value] = len(self._heap) - 1
+        self._upheap(len(self._heap) - 1)
+
+    def _downheap(self, index: int) -> None:
+        index_max = index
+
+        if index*2 <= self.size() and self._heap[index_max] < self._heap[index*2]:
+            index_max = index*2
+        if index*2+1 <= self.size() and self._heap[index_max] < self._heap[index*2+1]:
+            index_max = index*2+1
+        if index_max != index:
+            self._heap[index], self._heap[index_max] = self._heap[index_max], self._heap[index]
+            self._reverse_lookup[self._heap[index_max].node], self._reverse_lookup[self._heap[index].node] = self._reverse_lookup[self._heap[index].node], self._reverse_lookup[self._heap[index_max].node]
+            self._downheap(index_max)
+        
+
+    def remove_max(self):
+        return_value = self._heap[1]
+        del self._reverse_lookup[return_value.node]
+        if self.size() > 1:
+            self._heap[1] = self._heap.pop()
+            self._downheap(1)
+        else:
+            self._heap.pop()
+        return return_value.node
+
+
+    def update_priority(self, value, priority):
+        self._heap[self._reverse_lookup[value]].priority = priority
+        self._upheap(self._reverse_lookup[value])
+        self._downheap(self._reverse_lookup[value])
 
 class GraphEdge:
     def __init__(self, origin, destination, weight):
@@ -56,7 +114,7 @@ def dijkstra_algorithm_implementation(graph, start_node):
    
     while todo_list.size() > 0:
         current_node = todo_list.remove_max()
-        for neighbor, weight in graph[current_node].items():
+        for neighbor, weight in [(edge.other_node(current_node), edge.get_weight()) for edge in graph._neighbours[current_node]]:
             if distances[neighbor] > distances[current_node] + weight:
                 distances[neighbor] = distances[current_node] + weight
                 todo_list.enqueue(neighbor, distances[neighbor])
@@ -64,5 +122,22 @@ def dijkstra_algorithm_implementation(graph, start_node):
     return distances
 
 
+def test_dijkstra_algorithm_implementation():
+    graph = UndirectedGraph(6)
+    graph.add_edge(0, 1, 7)
+    graph.add_edge(0, 2, 9)
+    graph.add_edge(0, 5, 14)
+    graph.add_edge(1, 2, 10)
+    graph.add_edge(1, 3, 15)
+    graph.add_edge(2, 3, 11)
+    graph.add_edge(2, 5, 2)
+    graph.add_edge(3, 4, 6)
+    graph.add_edge(4, 5, 9)
+    assert dijkstra_algorithm_implementation(graph, 0) == [0, 7, 9, 20, 26, 11]
+    assert dijkstra_algorithm_implementation(graph, 1) == [7, 0, 10, 15, 21, 12]
+    assert dijkstra_algorithm_implementation(graph, 2) == [9, 10, 0, 11, 17, 2]
+    assert dijkstra_algorithm_implementation(graph, 3) == [20, 15, 11, 0, 6, 13]
+    assert dijkstra_algorithm_implementation(graph, 4) == [26, 21, 17, 6, 0, 9]
+    assert dijkstra_algorithm_implementation(graph, 5) == [11, 12, 2, 13, 9, 0]
 
-dijkstra_algorithm_implementation()
+test_dijkstra_algorithm_implementation()

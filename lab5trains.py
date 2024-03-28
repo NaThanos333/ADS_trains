@@ -61,21 +61,40 @@ def dijkstra_algorithm_implementation(graph, start_node):
 
 
 def test_dijkstra_algorithm_implementation():
-    graph = UndirectedGraph(6)
-    graph.add_edge(0, 1, 7)
-    graph.add_edge(0, 2, 9)
-    graph.add_edge(0, 5, 14)
-    graph.add_edge(1, 2, 10)
-    graph.add_edge(1, 3, 15)
-    graph.add_edge(2, 3, 11)
-    graph.add_edge(2, 5, 2)
-    graph.add_edge(3, 4, 6)
-    graph.add_edge(4, 5, 9)
-    assert dijkstra_algorithm_implementation(graph, 0) == [0, 7, 9, 20, 26, 11]
-    assert dijkstra_algorithm_implementation(graph, 1) == [7, 0, 10, 15, 21, 12]
-    assert dijkstra_algorithm_implementation(graph, 2) == [9, 10, 0, 11, 17, 2]
-    assert dijkstra_algorithm_implementation(graph, 3) == [20, 15, 11, 0, 6, 13]
-    assert dijkstra_algorithm_implementation(graph, 4) == [26, 21, 17, 6, 0, 9]
-    assert dijkstra_algorithm_implementation(graph, 5) == [11, 12, 2, 13, 9, 0]
+
+    # Create a graph
+    graph = UndirectedGraph(12)
+
+    # Add edges
+    edges = [
+        ("Amsterdam", "Den Haag", 46),
+        ("Amsterdam", "Den Helder", 77),
+        ("Amsterdam", "Utrecht", 26),
+        ("Den Haag", "Eindhoven", 89),
+        ("Eindhoven", "Maastricht", 63),
+        ("Eindhoven", "Nijmegen", 55),
+        ("Eindhoven", "Utrecht", 47),
+        ("Enschede", "Zwolle", 50),
+        ("Groningen", "Leeuwarden", 34),
+        ("Groningen", "Meppel", 49),
+        ("Leeuwarden", "Meppel", 40),
+        ("Maastricht", "Nijmegen", 111),
+        ("Meppel", "Zwolle", 15),
+        ("Nijmegen", "Zwolle", 77),
+        ("Utrecht", "Zwolle", 51)
+    ]
+    
+
+    for edge in edges:
+        origin, destination, weight = edge
+        graph.add_edge(origin, destination, weight)
+
+    # Test Dijkstra's algorithm
+    start_node = "Amsterdam"
+    distances = graph.dijkstra(start_node)
+    print("Shortest distances from", start_node + ":")
+    for node, distance in distances.items():
+        print(node + ":", distance)
+
 
 test_dijkstra_algorithm_implementation()

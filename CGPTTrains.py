@@ -59,6 +59,7 @@ while lineinput != "!":
     input_lst.append(lineinput)
     lineinput = input()
 
+
 # Test Dijkstra's algorithm
 line = 0
 number = int(input_lst[0])
@@ -67,16 +68,16 @@ for n in range(number):
     city1 = input_lst[line]
     line += 1
     city2 = input_lst[line]
-    if city2 in edges[city1]:
+    if city1 in edges.keys() and city2 in edges[city1]:
         del edges[city1][city2]
-    if city1 in edges[city2]:
+    if city2 in edges.keys() and city1 in edges[city2]:
         del edges[city2][city1]
 
 for origin, destinations in edges.items():
     for destination, weight in destinations.items():
         graph.add_edge(origin, destination, weight)
 
-while line < len(input_lst):
+while line < len(input_lst)-2:
     line += 1
     start_node = input_lst[line]
     line += 1

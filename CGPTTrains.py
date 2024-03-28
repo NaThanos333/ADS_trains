@@ -43,17 +43,15 @@ graph = Graph()
 # Add edges
 edges = {
     "Amsterdam": {"Den Haag": 46, "Den Helder": 77, "Utrecht": 26},
-    "Den Haag": {"Amsterdam": 46, "Eindhoven": 89},
-    "Den Helder": {"Amsterdam": 77},
-    "Utrecht": {"Amsterdam": 26, "Eindhoven": 47, "Zwolle": 51},
-    "Eindhoven": {"Den Haag": 89, "Utrecht": 47, "Maastricht": 63, "Nijmegen": 55},
-    "Maastricht": {"Eindhoven": 63, "Nijmegen": 111},
-    "Nijmegen": {"Eindhoven": 55, "Maastricht": 111, "Zwolle": 77},
+    "Den Haag": {"Eindhoven": 89},
+    "Eindhoven": {"Utrecht": 47, "Maastricht": 63, "Nijmegen": 55},
+    "Maastricht": { "Nijmegen": 111},
+    "Nijmegen": {"Zwolle": 77},
     "Zwolle": {"Utrecht": 51, "Nijmegen": 77},
     "Enschede": {"Zwolle": 50},
     "Groningen": {"Leeuwarden": 34, "Meppel": 49},
-    "Leeuwarden": {"Groningen": 34, "Meppel": 40},
-    "Meppel": {"Groningen": 49, "Leeuwarden": 40, "Zwolle": 15}
+    "Leeuwarden": {"Meppel": 40},
+    "Meppel": {"Zwolle": 15}
 }
 input_lst = []
 lineinput = input()
